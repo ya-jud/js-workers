@@ -4,7 +4,7 @@ document.forms[0].addEventListener('submit', e => {
   const number = +e.target.elements[0].value;
 
   if(window.Worker) {
-    const worker = new Worker('./worker.js');
+    const worker = new Worker('./worker.js', { type: `module` });
 
     worker.postMessage(number);
 
