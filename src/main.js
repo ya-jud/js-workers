@@ -1,14 +1,32 @@
 import Worker from './my.worker.js';
 
+const input = document.getElementById('number');
+const btn = document.getElementById('fnk');
+
+let result = document.getElementById('result');
+
 const worker = new Worker();
 
-document.forms[0].addEventListener('submit', e => {
-  e.preventDefault();
-  const number = +e.target.elements[0].value;
+if(window.Worker) {
   
-  worker.postMessage(number)
+  let test 
+  worker.onmessage = e => {
+    test = document.createElement("div");
+    test.setAttribute("id", "result");
 
-  worker.onmessage = message => {
-    console.log(message);
+    document.body.append(test);
+
+    test.innerText = JSON.stringify(e.data)
   };
+
+  // worker.postMessage(input);
+
+  // worker.onmessage = message => {
+  //   console.log(`Get value from worker: `, message)
+  //   result.innerHTML  = message.data
+  // }
+}
+
+btn.addEventListener('click', () => {
+  worker.postMessage({ postMessage: true });
 });
