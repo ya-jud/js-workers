@@ -7,7 +7,7 @@ if(process.env.NODE_ENV === 'production') {
 };
 
 const config = {
-  entry: ['./main.js'],
+  entry: ['./src/main.js'],
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html'
@@ -15,7 +15,14 @@ const config = {
   ],
   module: {
     rules: [
-      { test: /\.m?js/, resolve: { fullySpecified: false } },
+      { test: /\.m?js/,
+        resolve: { fullySpecified: false },
+        exclude: [
+          /node_modules/,
+          /\.worker\.js$/
+        ]
+      },
+      { test: /\.worker\.js$/, loader: 'worker-loader' },
     ],
   },
   output: {
